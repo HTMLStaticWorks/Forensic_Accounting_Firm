@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="img/logo.png">
-    <title>Login | TruthSeekers Portal</title>
+    <title>Register | TruthSeekers Portal</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -26,7 +26,7 @@
                 <img src="img/logo.png" alt="Logo">
                 <span>TruthSeekers</span>
             </a>
-            <h2>Secure Portal Access</h2>
+            <h2>Create Your Account</h2>
         </div>
 
         <div class="social-login-grid">
@@ -42,37 +42,37 @@
 
         <form action="dashboard.html" method="GET">
             <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" required placeholder="John Doe">
+            </div>
+            <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" required placeholder="name@company.com">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <div class="password-wrapper">
-                    <input type="password" id="password" required placeholder="••••••••">
-                    <i class="fa-solid fa-eye-slash toggle-password"></i>
-                </div>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" required placeholder="••••••••">
             </div>
             
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.9rem;">
-                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-sub);">
-                    <input type="checkbox"> Remember me
+            <div style="margin-bottom: 1.5rem; font-size: 0.9rem;">
+                <label style="display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer; color: var(--text-sub);">
+                    <input type="checkbox" required style="margin-top: 0.2rem;"> 
+                    <span>I agree to the <a href="#" style="color: var(--secondary-color);">Terms of Service</a> and <a href="#" style="color: var(--secondary-color);">Privacy Policy</a>.</span>
                 </label>
-                <a href="#" style="color: var(--secondary-color);">Forgot Password?</a>
             </div>
 
-            <button type="submit" class="btn" style="width: 100%;">Sign In</button>
+            <button type="submit" class="btn" style="width: 100%;">Create Account</button>
         </form>
 
         <div style="text-align: center; margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-sub);">
-            Don't have an account? <a href="register.html" style="color: var(--secondary-color); font-weight: 600;">Sign Up</a>
+            Already have an account? <a href="login.html" style="color: var(--secondary-color); font-weight: 600;">Sign In</a>
         </div>
     </div>
 
     <script src="js/script.js"></script>
 </body>
 </html>
-
-
-
-
-
