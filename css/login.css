@@ -1,12 +1,10 @@
-/* Login specific styles ensuring single viewport with no scroll */
 body.login-page {
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--bg-color);
-    padding: 0;
+    padding: 2rem 1rem; /* Added padding for mobile scroll buffer */
 }
 
 .login-card {
@@ -27,8 +25,7 @@ body.login-page {
 .login-header .brand-logo {
     display: inline-flex;
     justify-content: center;
-    font-size: 2rem;
-    color: var(--primary-color);
+    font-size: 1.25rem;
 }
 
 .form-group {
@@ -53,6 +50,31 @@ body.login-page {
 .form-group input:focus {
     outline: none;
     border-color: var(--secondary-color);
+}
+
+/* Password Toggle Support */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    padding-right: 3rem; /* Space for icon */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 1rem;
+    cursor: pointer;
+    color: var(--text-sub);
+    transition: var(--transition);
+    user-select: none;
+    z-index: 10;
+}
+
+.toggle-password:hover {
+    color: var(--secondary-color);
 }
 
 /* Rule 28: Standardized social login */

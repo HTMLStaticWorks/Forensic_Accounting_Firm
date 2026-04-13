@@ -107,9 +107,92 @@ img {
   display: block;
 }
 
-/* Optional RTL Support Wrapper */
+/* RTL Support Wrapper */
 [dir="rtl"] {
   text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] .brand-logo {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-link.active::after {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .header-actions {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hero {
+  text-align: right;
+}
+
+[dir="rtl"] .card {
+  text-align: right;
+}
+
+[dir="rtl"] .card-icon {
+  justify-content: flex-start;
+}
+
+[dir="rtl"] .footer-links a:hover {
+  padding-left: 0;
+  padding-right: 5px;
+}
+
+[dir="rtl"] .social-links {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .mobile-nav {
+  left: auto;
+  right: -280px;
+}
+
+[dir="rtl"] .mobile-nav.active {
+  right: 0;
+  left: auto;
+}
+
+/* Back to Top Button */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--secondary-color);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+  z-index: 999;
+  border: none;
+}
+
+.back-to-top.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background-color: var(--secondary-color-hover);
+  transform: translateY(-5px);
+}
+
+[dir="rtl"] .back-to-top {
+  right: auto;
+  left: 30px;
 }
 
 /* =========================================================================
@@ -119,6 +202,15 @@ img {
   width: 90%;
   max-width: var(--container-max);
   margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-center p, .text-center .sub-text {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 section {
@@ -144,7 +236,7 @@ section.bg-alt {
   justify-content: center;
   gap: 0.5rem;
   background-color: var(--secondary-color);
-  color: #fff;
+  color: var(--primary-color);
   padding: 0 1.5rem;
   height: 48px; /* Standard proportional size (Rule 5 & 10) */
   border-radius: 4px;
@@ -179,6 +271,34 @@ section.bg-alt {
   color: var(--primary-color);
 }
 
+/* Rule 31 & 45: Ensure outline buttons are visible in hero sections */
+.hero .btn-outline {
+  border-color: #fff;
+  color: #fff;
+}
+
+.hero .btn-outline:hover {
+  background-color: #fff;
+  color: var(--primary-color);
+}
+
+.btn-nav {
+  height: 42px;
+  padding: 0 1.25rem;
+  font-size: 0.95rem;
+}
+
+.btn-nav-outline {
+  background-color: transparent;
+  border: 2px solid var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+.btn-nav-outline:hover {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+
 /* =========================================================================
    GLOBAL HEADER / NAVBAR
    ========================================================================= */
@@ -210,14 +330,21 @@ section.bg-alt {
   gap: 0.5rem;
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--primary-color);
-}
-[data-theme="dark"] .brand-logo {
-  color: #fff;
+  color: var(--secondary-color);
 }
 .brand-logo img {
-  height: 40px; /* Consistent rule 2 */
-  width: auto;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.brand-icon-small {
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* Nav Links Menu */
@@ -279,12 +406,29 @@ section.bg-alt {
   visibility: visible;
   top: 100%;
 }
+.nav-item.active .nav-link {
+  color: var(--secondary-color);
+}
+.nav-item.active .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--secondary-color);
+}
+[dir="rtl"] .nav-item.active .nav-link::after {
+  left: auto;
+  right: 0;
+}
 .dropdown-menu li a {
   padding: 0.75rem 1.5rem;
   display: block;
   color: var(--text-main);
 }
-.dropdown-menu li a:hover {
+.dropdown-menu li a:hover,
+.dropdown-menu li a.active {
   background-color: var(--primary-color);
   color: #fff;
 }
@@ -375,11 +519,15 @@ body {
 /* =========================================================================
    GLOBAL FOOTER (Rule 9, 36)
    ========================================================================= */
-/* Not displayed on login/dashboard via specific classes */
+/* Global Footer (Rule 2: Vibrant colors, dark modes) */
 .global-footer {
   background-color: var(--primary-color);
   color: var(--text-light);
-  padding: 4rem 0 2rem;
+  padding: 5rem 0 2rem;
+  border-top: 3px solid var(--secondary-color); /* Distinct separation from content above */
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  z-index: 10;
 }
 
 .footer-grid {
@@ -398,13 +546,16 @@ body {
 .footer-logo {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--secondary-color);
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 .footer-logo img {
-  height: 40px;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .footer-text {
   color: #cbd5e1;
@@ -472,9 +623,30 @@ body {
   font-size: 0.875rem;
 }
 
-/* =========================================================================
-   COMPONENTS (Cards, Grid, Hero)
-   ========================================================================= */
+/* Rule 25: Balanced Card Layouts (2x2 or 4 in a row) */
+.final-cta {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #1e293b 100%);
+  padding: 5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+}
+.final-cta h2 { color: #fff; }
+.final-cta p, .final-cta .sub-text { color: #cbd5e1; }
+
+.final-cta::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 70% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Rule 25: Balanced Card Layouts (2x2 or 4 in a row) */
 
 /* Rule 25: Balanced Card Layouts (2x2 or 4 in a row) */
 .card-grid {
@@ -487,10 +659,27 @@ body {
   .card-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  
+  /* Center the last card if it's the 3rd one in a 2-column grid */
+  #services-preview .card-grid .card:last-child:nth-child(odd),
+  #testimonials .card-grid .card:last-child:nth-child(odd),
+  #problem-solution .card-grid .card:last-child:nth-child(odd),
+  #core-values .card-grid .card:last-child:nth-child(odd) {
+    grid-column: 1 / span 2;
+    justify-self: center;
+    width: 100%;
+    max-width: 500px; /* Optional: cap width so it doesn't look too stretched */
+  }
 }
 @media (max-width: 640px) {
   .card-grid {
     grid-template-columns: 1fr;
+  }
+  #services-preview .card-grid .card:last-child:nth-child(odd),
+  #testimonials .card-grid .card:last-child:nth-child(odd),
+  #problem-solution .card-grid .card:last-child:nth-child(odd) {
+    grid-column: auto;
+    max-width: none;
   }
 }
 
@@ -561,7 +750,7 @@ body {
   justify-content: center;
   text-align: center;
   position: relative;
-  background-image: linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.9)), url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80');
+  background-image: linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.9)), url('../img/hero_bg.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -587,6 +776,18 @@ body {
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+#team-grid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* Tablet Centering for 4th card (Rule 20 & 25) 
+   At 768px - 992px, 3 columns usually fit. We center the 4th card. */
+@media (min-width: 768px) and (max-width: 992px) {
+  #team-grid .card:last-child:nth-child(4) {
+    grid-column: 2; /* Middle column of 3 */
+  }
 }
 
 /* =========================================================================
@@ -621,4 +822,172 @@ body {
   .hero {
     min-height: 60vh;
   }
+}
+
+/* Page Specific Fixes */
+#sector-success-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+@media (max-width: 400px) {
+  #sector-success-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* FAQ Accordion Styles */
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faq-item {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.faq-item:hover {
+  border-color: var(--secondary-color);
+  box-shadow: var(--shadow-md);
+}
+
+.faq-question {
+  width: 100%;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-base);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  transition: var(--transition);
+}
+
+[data-theme="dark"] .faq-question {
+  color: #fff;
+}
+
+.faq-icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.faq-icon::before,
+.faq-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: var(--secondary-color);
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.faq-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(180deg);
+}
+
+.faq-item.active .faq-icon::after {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+  padding: 0 2rem;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 500px; /* Sufficient height for content */
+  padding: 0 2rem 1.5rem;
+}
+
+.faq-answer p {
+  margin-bottom: 0;
+  padding-top: 0.5rem;
+}
+
+/* ==============================================
+   EMERGENCY BOX (Contact Page)
+   ============================================== */
+.emergency-box {
+    background: var(--primary-color);
+    border-radius: 8px;
+    padding: 4rem;
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    align-items: center;
+}
+
+.emergency-box h2 {
+    color: #fff;
+}
+
+.emergency-box p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Auth Controls (Floating Toggles) */
+.auth-controls {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    display: flex;
+    gap: 1rem;
+    z-index: 1000;
+}
+
+@media (max-width: 768px) {
+    .auth-controls {
+        top: 1rem;
+        right: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .emergency-box {
+        padding: 3rem;
+        gap: 3rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .emergency-box {
+        padding: 1.5rem;
+        gap: 2rem;
+    }
+    
+    .emergency-box h2 {
+        font-size: 1.75rem;
+    }
+    
+    .emergency-box .btn {
+        width: 100%;
+        display: inline-block;
+    }
 }
