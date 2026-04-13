@@ -29,6 +29,89 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ==============================================
+       DASHBOARD SIDEBAR (Rule 49)
+       ============================================== */
+    const toggleSidebar = document.getElementById("mobile-sidebar-toggle");
+    const closeSidebar = document.getElementById("sidebar-close");
+    const sidebar = document.getElementById("dashboard-sidebar");
+    const sidebarOverlay = document.getElementById("sidebar-overlay");
+
+    function closeAllSidebarItems() {
+        if (sidebar) sidebar.classList.remove("active");
+        if (sidebarOverlay) sidebarOverlay.classList.remove("active");
+    }
+
+    if (toggleSidebar && sidebar) {
+        toggleSidebar.addEventListener("click", () => {
+            sidebar.classList.toggle("active");
+            if (sidebarOverlay) sidebarOverlay.classList.toggle("active");
+        });
+    }
+
+    if (closeSidebar) {
+        closeSidebar.addEventListener("click", closeAllSidebarItems);
+    }
+
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener("click", closeAllSidebarItems);
+    }
+
+    // Close on link click on mobile
+    const sidebarLinks = document.querySelectorAll(".sidebar-link");
+    sidebarLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            if (window.innerWidth <= 992) {
+                closeAllSidebarItems();
+            }
+        });
+    });
+
+    /* ==============================================
+       RTL TOGGLE
+       ============================================== */
+    const rtlBtn = document.getElementById("rtl-toggle");
+    const currentRtl = localStorage.getItem("rtl");
+
+    if (currentRtl === "enabled") {
+        document.documentElement.setAttribute("dir", "rtl");
+    }
+
+    if (rtlBtn) {
+        rtlBtn.addEventListener("click", () => {
+            const isRtl = document.documentElement.getAttribute("dir") === "rtl";
+            if (isRtl) {
+                document.documentElement.removeAttribute("dir");
+                localStorage.setItem("rtl", "disabled");
+            } else {
+                document.documentElement.setAttribute("dir", "rtl");
+                localStorage.setItem("rtl", "enabled");
+            }
+        });
+    }
+
+    /* ==============================================
+       BACK TO TOP
+       ============================================== */
+    const backToTopBtn = document.getElementById("back-to-top");
+
+    if (backToTopBtn) {
+        window.addEventListener("scroll", () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add("active");
+            } else {
+                backToTopBtn.classList.remove("active");
+            }
+        });
+
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    }
+
+    /* ==============================================
        MOBILE MENU (Rule 14 & 15)
        ============================================== */
     const hamburger = document.getElementById("hamburger");
@@ -63,6 +146,71 @@ document.addEventListener("DOMContentLoaded", () => {
         const href = link.getAttribute("href");
         if (href === currentPath || (currentPath === "" && href === "index.html")) {
             link.classList.add("active");
+            
+            // If it's in a dropdown, highlight the parent too
+            const parentNavItem = link.closest(".nav-item.dropdown");
+            if (parentNavItem) {
+                parentNavItem.classList.add("active");
+            } else {
+                // For non-dropdown links, highlight the parent li if it's not a dropdown item
+                const li = link.closest("li");
+                if (li && !li.closest(".dropdown-menu")) {
+                    li.classList.add("active");
+                }
+            }
         }
+    });
+
+    const filterBtn = document.getElementById("filter-btn");
+    const filterDropdown = document.getElementById("filter-dropdown");
+    if (filterBtn && filterDropdown) {
+        filterBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            filterDropdown.classList.toggle("active");
+        });
+        document.addEventListener("click", (e) => {
+            if (filterDropdown && !filterDropdown.contains(e.target)) {
+                filterDropdown.classList.remove("active");
+            }
+        });
+    }
+
+    /* ==============================================
+       FAQ ACCORDION
+       ============================================== */
+    const faqQuestions = document.querySelectorAll(".faq-question");
+    
+    faqQuestions.forEach(question => {
+        question.addEventListener("click", () => {
+            const item = question.parentElement;
+            const isActive = item.classList.contains("active");
+            
+            // Close all other items (accordion behavior)
+            document.querySelectorAll(".faq-item").forEach(otherItem => {
+                otherItem.classList.remove("active");
+            });
+            
+            // Toggle current item
+            if (!isActive) {
+                item.classList.add("active");
+            }
+        });
+    });
+
+    // Password Visibility Toggle
+    const togglePasswordIcons = document.querySelectorAll('.toggle-password');
+    togglePasswordIcons.forEach(icon => {
+        icon.addEventListener('click', function() {
+            const wrapper = this.parentElement;
+            const passwordInput = wrapper.querySelector('input');
+            
+            // Toggle the type attribute
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle the icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
     });
 });
